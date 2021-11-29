@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
@@ -23,12 +24,20 @@ export default function ModalForm(props) {
   const [priceValue, setPrice] = useState();
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    onAddProduct({
-      title: nameValue,
-      userId: priceValue,
-    });
+    
+    // Saving data for the new document
+    const newProduct = {
+      name: nameValue,
+      price: Number(priceValue),
+    }; 
+
+    // Creating new document on App (it already save the document on DB)
+    axios.post(`http://localhost:3001/product`, newProduct);
+
+    onAddProduct(newProduct);// Showing new document on screen without refresh it
     setName('');
     setPrice('');
+    handleClose();// Closing the modal on submit
   };
 
   return (

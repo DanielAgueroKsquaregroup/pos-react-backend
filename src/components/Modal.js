@@ -50,7 +50,7 @@ export default function BasicModal(props) {
   };
   const handleDeleteProduct = (id) => {
     setTotal(total - 1);
-    const productIndex = cart.findIndex((product) => product.id == id);
+    const productIndex = cart.findIndex((product) => product.id === id);
     cart.splice(productIndex, 1);
     handleClose();
   };

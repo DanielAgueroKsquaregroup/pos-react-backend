@@ -43,14 +43,9 @@ export default function Album() {
 
   const [openForm, setOpenForm] = useState(false);
   
-  const username = 'daniel_Aguero';
-  const password = 'K$UKt7UW!$Pu2*m';
-  const cluster = 'cluster0.ed5jx';
-  const dbName = 'myFirstDatabase';
-  
   useEffect(() => {
     axios
-    .get(`http://localhost:3001/product`)//https://jsonplaceholder.typicode.com/posts/?_page=${currentPage}
+    .get(`http://localhost:3001/product`)
     .then(function (response) {
       console.log(response.data);
       setProducts(response.data);
@@ -63,7 +58,7 @@ export default function Album() {
   const handleOpenForm = () => {
 
       axios
-      .get(`http://localhost:3001/product`)//https://jsonplaceholder.typicode.com/posts/?_page=${currentPage}
+      .get(`http://localhost:3001/product`)
       .then(function (response) {
         console.log(response.data);
         setProducts(response.data);
