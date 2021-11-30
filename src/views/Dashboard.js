@@ -1,26 +1,26 @@
-import { useState, useEffect, useMemo } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import axios from 'axios';
+import BasicModal from '../components/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import { useLocation, useHistory } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import BasicModal from '../components/Modal';
-import ModalForm from '../components/ModalForm';
 import { Link } from 'react-router-dom';
+import ModalForm from '../components/ModalForm';
+import Paper from '@mui/material/Paper';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useEffect, useMemo, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -42,22 +42,21 @@ export default function Album() {
   const handleClose = () => setOpen(false);
 
   const [openForm, setOpenForm] = useState(false);
-  
+
   useEffect(() => {
     axios
-    .get(`http://localhost:3001/product`)
-    .then(function (response) {
-      console.log(response.data);
-      setProducts(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .get(`http://localhost:3001/product`)
+      .then(function (response) {
+        console.log(response.data);
+        setProducts(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, []);
-  
-  const handleOpenForm = () => {
 
-      axios
+  const handleOpenForm = () => {
+    axios
       .get(`http://localhost:3001/product`)
       .then(function (response) {
         console.log(response.data);
@@ -68,7 +67,7 @@ export default function Album() {
       });
 
     setOpenForm(true);
-  }
+  };
 
   const handleCloseForm = () => setOpenForm(false);
 
@@ -82,7 +81,7 @@ export default function Album() {
   };
 
   const handleAddProductToCart = (product) => {
-    setTotal(total + product.userId);
+    setTotal(total + product.price);
     const myCart = [...cart, product];
     setCarts(myCart);
     handleOpen();

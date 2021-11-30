@@ -13,7 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
@@ -56,7 +55,6 @@ export default function BasicModal(props) {
   };
 
   const handleReturnValue = (payment) => {
-    console.log(payment);
     setReturnValue(payment - total);
   };
 
@@ -69,13 +67,22 @@ export default function BasicModal(props) {
 
   const handleCheckOut = () => {
     // passing an array of objects and property 'a' to extract
-    const products = extractValue(cart, 'title');
+    var now = new Date();
+    var dateString = now.toISOString().split('T')[0];
+
+    const newInvoice = {
+      date: dateString,
+      productName: extractValue(cart, 'name'),
+      status: true,
+      finalAmount: extractValue(cart, 'price'),
+    };
+
     axios
-      .post('/', {
-        date: Date.now(),
-        products: products,
-        status: 'Paid',
-        total: total,
+      .post('http://localhost:3001/invoice', {
+        date: newInvoice.date,
+        status: newInvoice.status,
+        finalAmount: newInvoice.finalAmount,
+        productName: newInvoice.productName,
       })
       .then(function (response) {
         console.log(response);
@@ -109,13 +116,13 @@ export default function BasicModal(props) {
               <TableBody>
                 {cart.map((product) => (
                   <TableRow
-                    key={product.title}
+                    key={product.id}
                     sx={{
                       '&:last-child td, &:last-child th': { border: 0 },
                     }}
                   >
-                    <TableCell>{product.title[0]}</TableCell>
-                    <TableCell align='right'>${product.userId}.00</TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell align='right'>${product.price}.00</TableCell>
                     <TableCell align='right'>
                       <IconButton
                         aria-label='settings'
